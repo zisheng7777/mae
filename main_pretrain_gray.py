@@ -190,6 +190,14 @@ def main(args):
     model = models_mae_gray.__dict__[args.model](norm_pix_loss=args.norm_pix_loss)
     model.to(device)
 
+###########################
+    if args.finetune:
+        print(f"Fine-tuning from checkpoint: {args.finetune}")
+        checkpoint = torch.load(args.finetune, map_location='cuda')
+        model.load_state_dict(checkpoint['model'], strict=False)
+    ###########################
+
+
     model_without_ddp = model
     print("Model = %s" % str(model_without_ddp))
 
